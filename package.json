@@ -1,0 +1,27 @@
+{
+  "name": "alkemy-fullstack-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fazcue/alkemy-fullstack-js.git"
+  },
+  "author": "Facundo Azcue",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fazcue/alkemy-fullstack-js/issues"
+  },
+  "homepage": "https://github.com/fazcue/alkemy-fullstack-js#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
