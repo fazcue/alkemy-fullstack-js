@@ -1,11 +1,10 @@
+import express, { Express, Request, Response } from 'express'
+import cors from 'cors'
+import { createClient } from '@supabase/supabase-js'
 import dotenv from 'dotenv'
 dotenv.config()
 
-import express from 'express'
-import cors from 'cors'
-import { createClient } from '@supabase/supabase-js'
-
-const app = express()
+const app: Express = express()
 
 app.use(cors())
 
@@ -13,11 +12,11 @@ app.use(cors())
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY)
 
 //Routes
-app.get('/', (req, res) => {
+app.get('/', (req: Request, res: Response) => {
     res.send('<h1>Express installed</h1>')
 })
 
-app.get('/api/budgets', async (req, res) => {
+app.get('/api/budgets', async (req: Request, res: Response) => {
     const { data, error } = await supabase
         .from('budgets')
         .select()
@@ -26,7 +25,7 @@ app.get('/api/budgets', async (req, res) => {
 })
 
 //Unknown endpoints
-const unknownEndpoint = (req, res) => {
+const unknownEndpoint = (req: Request, res: Response) => {
     res.status(404).send({ error: 'unknown endpoint'})
 }
 
