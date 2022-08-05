@@ -13,7 +13,7 @@ export interface Entry {
 
 export interface Budget {
     incomes: Entry[]
-    outcomes: Entry[]
+    expenses: Entry[]
     user_id: string
 }
 
