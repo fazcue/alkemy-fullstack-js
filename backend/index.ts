@@ -31,7 +31,7 @@ interface Budget {
     created_at: string
     id: number
     incomes: Entry[]
-    outcomes: Entry[]
+    expenses: Entry[]
     user_id: string
 }
 
@@ -76,7 +76,7 @@ app.put(`${API_BASE}/:userID`, async (req: Request, res: Response) => {
         .update(newBudget)
         .match({ user_id: userID })
 
-    res.json(error ? error.message : {incomes: data[0].incomes, outcomes: data[0].outcomes, user_id: data[0].user_id})
+    res.json(error ? error.message : {incomes: data[0].incomes, expenses: data[0].expenses, user_id: data[0].user_id})
 })
 
 app.delete(`${API_BASE}/:userID`, async (req: Request, res: Response) => {
@@ -88,7 +88,7 @@ app.delete(`${API_BASE}/:userID`, async (req: Request, res: Response) => {
         .update(newBudget)
         .match({ user_id: userID })
 
-    res.json(error ? error.message : {incomes: data[0].incomes, outcomes: data[0].outcomes, user_id: data[0].user_id})
+    res.json(error ? error.message : {incomes: data[0].incomes, expenses: data[0].expenses, user_id: data[0].user_id})
 })
 
 app.post('/api/user/register', async (req: Request, res: Response) => {
@@ -100,7 +100,7 @@ app.post('/api/user/register', async (req: Request, res: Response) => {
     if (user?.id) {
         const newBudget = {
             incomes: [],
-            outcomes: [],
+            expenses: [],
             user_id: user.id
         }
 
