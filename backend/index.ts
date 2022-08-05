@@ -18,8 +18,28 @@ const requestLogger = (request, response, next) => {
 
 app.use(requestLogger)
 
+//interfaces
+interface Entry {
+    id: string
+    category: string
+    description: string
+    amount: number
+    date: string
+}
+
+interface Budget {
+    created_at: string
+    id: number
+    incomes: Entry[]
+    outcomes: Entry[]
+    user_id: string
+}
+
 //Single supabase client for interacting with database
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY)
+
+//Frontend build
+app.use(express.static('build'))
 
 //Routes
 const API_BASE = '/api/budgets'
@@ -47,16 +67,28 @@ app.get(`${API_BASE}/:userID`, async (req: Request, res: Response) => {
     res.json(data)
 })
 
-app.post(API_BASE, async (req: Request, res: Response) => {
+app.put(`${API_BASE}/:userID`, async (req: Request, res: Response) => {
+    const userID = req.params.userID
     const newBudget = req.body
 
     const { data, error } = await supabase
-        .from('budgets')
-        .insert([newBudget])
+        .from<Budget>('budgets')
+        .update(newBudget)
+        .match({ user_id: userID })
 
-    console.log('error', error);
-    
-    res.json(data ? data : error)
+    res.json(error ? error.message : {incomes: data[0].incomes, outcomes: data[0].outcomes, user_id: data[0].user_id})
+})
+
+app.delete(`${API_BASE}/:userID`, async (req: Request, res: Response) => {
+    const userID = req.params.userID
+    const newBudget = req.body
+
+    const { data, error } = await supabase
+        .from<Budget>('budgets')
+        .update(newBudget)
+        .match({ user_id: userID })
+
+    res.json(error ? error.message : {incomes: data[0].incomes, outcomes: data[0].outcomes, user_id: data[0].user_id})
 })
 
 app.post('/api/user/register', async (req: Request, res: Response) => {
@@ -67,9 +99,8 @@ app.post('/api/user/register', async (req: Request, res: Response) => {
     //Create empty budget for new user
     if (user?.id) {
         const newBudget = {
-            income: [],
-            outcome: [],
-            balance: 0,
+            incomes: [],
+            outcomes: [],
             user_id: user.id
         }
 
