@@ -1,0 +1,8 @@
+.container {
+    background-color: var(--almost-dark);
+    padding: 20px;
+    border-radius: 5px;
+    color: var(--white);
+    max-width: 400px;
+    margin-bottom: 20px;
+}

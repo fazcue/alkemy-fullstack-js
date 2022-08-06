@@ -1,0 +1,18 @@
+.submit {
+    width: 100%;
+    font-size: 18px;
+    padding: 5px;
+    background-color:var(--dark);
+    color: var(--white);
+    border: 0;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.submit:hover {
+    background-color: var(--crimson);
+}
+
+.submit:disabled {
+    background-color: var(--dark-gray);
+}

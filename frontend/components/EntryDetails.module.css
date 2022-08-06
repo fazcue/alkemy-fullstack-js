@@ -1,0 +1,75 @@
+.container {
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.entry {
+    display: flex;
+    align-items: center;
+    color: var(--dark);
+    width: 100%;
+    justify-content:space-between;
+    padding: 10px;
+}
+
+.category {
+    margin-right: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: var(--white);
+}
+
+.description {
+    margin-right: 10px;
+    line-height: 24px;
+    word-break: break-word;
+}
+
+.amount {
+    font-weight:normal;
+}
+
+.edit {
+    display: flex;
+    margin-left: 5px;
+    padding: 10px;
+    background-color: var(--almost-dark);
+    align-items: center;
+    border: 0;
+    cursor: pointer;
+    color: var(--white);
+}
+
+.delete {
+    display: flex;
+    margin-left: 5px;
+    padding: 10px;
+    background-color: var(--soft-dark);
+    align-items: center;
+    border: 0;
+    cursor: pointer;
+    color: var(--white);
+}
+
+.entry:hover {
+    background-color: var(--light-blue) !important;
+}
+
+.edit:hover {
+    background-color: var(--light-sea-green);
+}
+
+.delete:hover {
+    background-color: var(--crimson);
+}
+
+.delete:disabled {
+    background-color: var(--dark-gray);
+}
+
+@media (max-width: 450px) {
+    .description, .edit, .delete, .amount, .category {
+        font-size: 16px;
+    }
+}

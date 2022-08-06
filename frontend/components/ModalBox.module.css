@@ -1,0 +1,30 @@
+.modal {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    padding: 1rem;
+    border-radius: 1rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 450px;
+    min-width: 300px;
+    z-index: 1000;
+    background-color: var(--semi-dark)
+}
+
+.modalOverlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: var(--transparent-dark);
+	z-index: 1000;
+}
+
+@media (max-width: 500px) {
+	.modal {
+        width: 90%;
+    }
+}

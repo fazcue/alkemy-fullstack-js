@@ -1,0 +1,9 @@
+.container {
+	background-color: var(--semi-dark);
+	color: var(--white-smoke);
+	padding: 15px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+}
