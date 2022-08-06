@@ -16,7 +16,7 @@ interface Props {
 const NewEntry = ({budget, setBudget, userID, isModal = false, setModalStatus = () => {}}: Props): JSX.Element => {
     const [disabled, setDisabled] = useState(false)
     const [type, setType] = useState<'incomes' | 'expenses'>('incomes')
-    const [entry, setEntry] = useState<Entry>({
+    const [newEntry, setNewEntry] = useState<Entry>({
         id: null,
         category: categories[0].name,
         description: '',
@@ -29,10 +29,13 @@ const NewEntry = ({budget, setBudget, userID, isModal = false, setModalStatus = 
     }
 
     const handleOnChange = (prop, value) => {
-        setEntry(prev => {
+        //Dont allow line breaks
+        const clearValue = value.split('').filter(c => c !== '\n').join('')
+
+        setNewEntry(prev => {
             return {
                 ...prev,
-                [prop]: prop === 'amount' ? +value.replace(/\D/g, '') : value
+                [prop]: prop === 'amount' ? +clearValue.replace(/\D/g, '') : clearValue
             }
         })
     }
@@ -40,33 +43,32 @@ const NewEntry = ({budget, setBudget, userID, isModal = false, setModalStatus = 
     const addNewEntry = async (e) => {
         e.preventDefault()
 
-        const newEntry: Entry = {
-            ...entry,
+        const entry: Entry = {
+            ...newEntry,
             id: nanoid(),
-            category: type === 'expenses' ? entry.category : null
+            category: type === 'expenses' ? newEntry.category : null
         }
 
         setDisabled(true)
         const newBudget: Budget = {
             ...budget,
-            [type]: [...budget[type], newEntry]
+            [type]: [...budget[type], entry]
         }
 
         if (userID) {
             const res = await budgetService.update(userID, newBudget)
 
             if (res?.data) {
-                console.log('added', res.data)
                 setBudget(res.data)
             }
         }
         
-        setEntry({
+        setNewEntry({
             id: null,
             category: entry.category,
             description: '',
             amount: null,
-            date: null
+            date: entry.date
         })
         setDisabled(false)
         
@@ -77,12 +79,14 @@ const NewEntry = ({budget, setBudget, userID, isModal = false, setModalStatus = 
 
     return (
         <>
-            <h3>Add new Entry</h3>
+            <h3 className={styles.title}>Add new Entry</h3>
 
             <form onSubmit={addNewEntry}>
-                <textarea required rows={5} maxLength={60} placeholder="Description" value={entry.description} onChange={(e) => handleOnChange('description', e.target.value)} />
 
-                <input required placeholder="Amount" value={entry.amount ? entry.amount : ''} onChange={(e) => handleOnChange('amount', e.target.value)} />
+                <small>{60 - newEntry.description.length} characters remaining</small>
+                <textarea required rows={5} maxLength={60} placeholder="Description" value={newEntry.description} onChange={(e) => handleOnChange('description', e.target.value)} />
+
+                <input required placeholder="Amount" value={newEntry.amount ? newEntry.amount : ''} onChange={(e) => handleOnChange('amount', e.target.value)} />
 
                 <select required value={type} onChange={handleType}>
                     <option value='incomes'>Income</option>
@@ -90,12 +94,14 @@ const NewEntry = ({budget, setBudget, userID, isModal = false, setModalStatus = 
                 </select>
 
                 {type === 'expenses' && 
-                    <select required value={entry.category ? entry.category : categories[0].name} onChange={(e) => handleOnChange('category', e.target.value)}>
+                    <select required value={newEntry.category ? newEntry.category : categories[0].name} onChange={(e) => handleOnChange('category', e.target.value)}>
                         {categories.map((cat, index) => <option value={cat.name} key={index}>{cat.name}</option>)}
                     </select>
                 }
 
-                <input type='submit' value='Add' className={styles.submit} disabled={disabled} />
+                <input required type='date' value={newEntry.date ? newEntry.date : ''} onChange={(e) => handleOnChange('date', e.target.value)} />
+
+                <input type='submit' value={disabled ? 'Adding... wait' : 'Add new'} className={styles.submit} disabled={disabled} />
             </form>
         </>
     )
