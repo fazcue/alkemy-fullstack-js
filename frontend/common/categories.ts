@@ -14,7 +14,7 @@ export const categories: Categories[] = [
         color: '#4E3A5E'
     },
     {
-        name: 'Travel expenses',
+        name: 'Travels',
         color: '#DAA230'
     },
     {
@@ -34,7 +34,7 @@ export const categories: Categories[] = [
         color: '#772A32'
     },
     {
-        name: 'Personal care',
+        name: 'Personal',
         color: '#61928D'
     },
     {
