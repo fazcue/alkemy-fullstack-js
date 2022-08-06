@@ -1,5 +1,6 @@
 import { Entry, Budget } from "../common/types"
 import { categories } from "../common/categories"
+import CalendarIcon from "./CalendarIcon"
 import { nanoid } from "nanoid"
 import { useState } from "react"
 import ModalBox from "./ModalBox"
@@ -35,7 +36,6 @@ const EntryDetails = ({budget, setBudget, entry, index, isIncome = false, userID
             const res = await budgetService.remove(userID, newBudget)
 
             if (res?.data) {
-                console.log('deleted', res.data)
                 setBudget(res.data)
             }
         }
@@ -82,6 +82,7 @@ const EntryDetails = ({budget, setBudget, entry, index, isIncome = false, userID
 
     return (
         <div className={styles.container}>
+            <CalendarIcon date={entry.date} />
             <div className={styles.entry} style={{backgroundColor: index % 2 === 0 ? 'var(--light-gray)' : 'var(--dark-gray)'}}>
 
                 <div>
