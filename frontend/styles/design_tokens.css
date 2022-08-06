@@ -1,0 +1,17 @@
+:root {
+	/* Colors */
+	--dark: #111;
+	--almost-dark: #222;
+	--semi-dark: #2a2a2a;
+	--soft-dark: #333;
+	--transparent-dark: rgba(15, 15, 15, 0.975);
+	--white: white;
+	--white-smoke: whitesmoke;
+	--light-gray: lightgray;
+	--dark-gray: darkgray;
+	--crimson: crimson;
+	--light-blue: lightblue;
+	--light-sea-green: lightseagreen;
+	--dark-cyan: darkcyan;
+	--sky-blue: #2166AC;
+}
