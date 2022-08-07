@@ -12,39 +12,32 @@ import Menu from '../components/Menu'
 import Main from '../components/Main'
 import SidebarLeft from '../components/SidebarLeft'
 import FlexRow from '../components/FlexRow'
-import EntryDetails from '../components/EntryDetails'
+import IncomeList from '../components/IncomeList'
+import ExpenseList from '../components/ExpenseList'
 import Seo from '../components/Seo'
 
 const Home = () => {
+	const [user, setUser] = useState<User>(null)
+
 	const [budget, setBudget] = useState<Budget>(null)
 
 	const [balance, setBalance] = useState<number>(0)
 	const [incomeBalance, setIncomeBalance] = useState<number>(null)
 	const [expensesBalance, setExpensesBalance] = useState<number>(null)
 
-	const [user, setUser] = useState<User>(null)
 	const [errorMessage, setErrorMessage] = useState<string>('')
 
-	const [expensesCategories, setExpensesCategories] = useState<string[]>([])
-	const [selectedExpenseCat, setSelectedExpenseCat] = useState<string>(null)
-
 	const getBalance = () => {
-		const income = budget.incomes.reduce(
-			(prev, curr) => prev + curr.amount,
-			0
-		)
-		const expense = budget.expenses.reduce(
-			(prev, curr) => prev + curr.amount,
-			0
-		)
+		//get income balance
+		const income = budget.incomes.reduce((prev, curr) => prev + curr.amount, 0)
 
+		//get expense balance
+		const expense = budget.expenses.reduce((prev, curr) => prev + curr.amount, 0)
+
+		//save each balance
 		setIncomeBalance(income)
 		setExpensesBalance(expense)
 		setBalance(income - expense)
-	}
-
-	const handleOnChangeCategory = (e) => {
-		setSelectedExpenseCat(e.target.value)
 	}
 
 	const handleLogOut = () => {
@@ -56,8 +49,6 @@ const Home = () => {
 		setBalance(0)
 		setIncomeBalance(null)
 		setExpensesBalance(null)
-		setExpensesCategories([])
-		setSelectedExpenseCat(null)
 	}
 
 	//Custom header (for avoiding prop drilling)
@@ -85,8 +76,8 @@ const Home = () => {
 		)
 	}
 
-	//Effects
 	useEffect(() => {
+		//If user id, then get budget, else reset states
 		if (user?.id) {
 			budgetService
 				.get(user.id)
@@ -97,16 +88,13 @@ const Home = () => {
 	}, [user])
 
 	useEffect(() => {
+		//If budget, get balance
 		if (budget) {
-			//get unique expenses categories
-			const uniqueCategories = new Set(budget.expenses.map(expense => expense.category))
-			setExpensesCategories([...uniqueCategories])
-
 			getBalance()
 		}
 	},[budget])
 
-	if (!user || !user.id) {
+	if (!user || !user.id) { //No user, show login page
 		return (
 			<Layout
 				header={<CustomHeader />}
@@ -116,22 +104,16 @@ const Home = () => {
 				<FlexRow>
 					<Main alignItems='center'>
 						<h2 style={{textAlign: 'center'}}>Budget management tool</h2>
-
 						<p style={{textAlign: 'center'}}>Keep track of your incomes and expenses.</p>
-
 						<Card>
-							<>
-								<Login
-									setUser={setUser}
-									setErrorMessage={setErrorMessage}
-									errorMessage={errorMessage}
-								/>
-							</>
+							<Login
+								setUser={setUser}
+								setErrorMessage={setErrorMessage}
+								errorMessage={errorMessage}
+							/>
 						</Card>
 						<h3 style={{textAlign: 'center'}}>IMPORTANT</h3>
-
 						<p style={{textAlign: 'center'}}>This is an Alkemy challenge, build by Facundo Azcue.</p>
-
 						<p style={{textAlign: 'center'}}>Use it only as a test. Any data storaged will be delete at any point.</p>
 					</Main>
 				</FlexRow>
@@ -139,7 +121,7 @@ const Home = () => {
 		)
 	}
 
-	if (!budget) {
+	if (!budget) { //No budget, show loading page
 		return (
 			<Layout
 				header={<CustomHeader />}
@@ -173,7 +155,6 @@ const Home = () => {
 							/>
 						</Card>
 					</>
-
 				</SidebarLeft>
 				<Main maxWidth="750px" width='100%'>
 					<>
@@ -183,64 +164,11 @@ const Home = () => {
 							</Card>
 						</SmallScreensOnly>
 						{
-							(budget.incomes.length === 0 && budget.expenses.length === 0) ? <h2>Nothing added yet</h2>
+							(budget.incomes.length === 0 && budget.expenses.length === 0) ? <><h2>Nothing to show yet</h2><p>Add your first income or expense.</p></>
 						:
 							<>
-								{budget.incomes.length > 0 && (
-									<>
-										<h2>Income - <small>${incomeBalance}</small></h2>
-										{budget.incomes.map((income, index) => (
-											<EntryDetails
-												budget={budget}
-												setBudget={setBudget}
-												entry={income}
-												index={index}
-												isIncome
-												userID={user.id}
-												key={income.id}
-											/>
-										))}
-									</>
-								)}
-
-								{budget.expenses.length > 0 && (
-									<>
-										<h2>Expenses - <small>${expensesBalance}</small></h2>
-										{expensesCategories.length > 0 && <select value={selectedExpenseCat ? selectedExpenseCat : 'Show All'} onChange={handleOnChangeCategory}>
-											<option value='Show All'>Show All</option>
-											{expensesCategories.map((cat, index) => <option value={cat} key={index}>{cat}</option>)}
-										</select>}
-
-										{(selectedExpenseCat && selectedExpenseCat !== 'Show All') ? 
-											budget.expenses.map((expense, index) => {
-												if (expense.category === selectedExpenseCat) {
-													return (
-														<EntryDetails
-															budget={budget}
-															setBudget={setBudget}
-															entry={expense}
-															index={index}
-															userID={user.id}
-															key={expense.id}
-														/>
-													)
-												}
-											})
-										:
-										budget.expenses.map((expense, index) => (
-											<EntryDetails
-												budget={budget}
-												setBudget={setBudget}
-												entry={expense}
-												index={index}
-												userID={user.id}
-												key={expense.id}
-											/>
-										))
-										}
-
-									</>
-								)}
+								{budget.incomes.length > 0 && <IncomeList budget={budget} setBudget={setBudget} userID={user.id} incomeBalance={incomeBalance} />}
+								{budget.expenses.length > 0 && <ExpenseList budget={budget} setBudget={setBudget} userID={user.id} expensesBalance={expensesBalance} />}
 							</>
 						}
 					</>
