@@ -23,7 +23,18 @@
 .addNewButton {
 	font-size: 18px;
     padding: 10px;
-    background-color:var(--sky-blue);
+    background-color:var(--dark-sky-blue);
+    color: var(--white);
+    border: 0;
+    margin: 5px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.logOutButton {
+	font-size: 18px;
+    padding: 10px;
+    background-color:var(--dark);
     color: var(--white);
     border: 0;
     margin: 5px;
@@ -36,10 +47,14 @@
 }
 
 .addNewButton:hover {
+	background-color: var(--sky-blue);
+}
+
+.logOutButton:hover {
 	background-color: var(--crimson);
 }
 
-@media (max-width: 450px) {
+@media (max-width: 500px) {
 	.container {
 		flex-direction: column;
 	}
