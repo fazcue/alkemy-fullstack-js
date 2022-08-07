@@ -35,27 +35,20 @@ interface Budget {
     user_id: string
 }
 
-//Single supabase client for interacting with database
+//Supabase client for interacting with database
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY)
 
 //Frontend build
 app.use(express.static('build'))
 
-//Routes
+//ROUTES
 const API_BASE = '/api/budgets'
 
 app.get('/', (req: Request, res: Response) => {
     res.send('<h1>Express installed</h1>')
 })
 
-app.get(API_BASE, async (req: Request, res: Response) => {
-    const { data, error } = await supabase
-        .from('budgets')
-        .select()
-
-    res.json(data)
-})
-
+//get budget
 app.get(`${API_BASE}/:userID`, async (req: Request, res: Response) => {
     const userID = req.params.userID
 
@@ -67,6 +60,7 @@ app.get(`${API_BASE}/:userID`, async (req: Request, res: Response) => {
     res.json(data)
 })
 
+//update budget
 app.put(`${API_BASE}/:userID`, async (req: Request, res: Response) => {
     const userID = req.params.userID
     const newBudget = req.body
@@ -79,6 +73,7 @@ app.put(`${API_BASE}/:userID`, async (req: Request, res: Response) => {
     res.json(error ? error.message : {incomes: data[0].incomes, expenses: data[0].expenses, user_id: data[0].user_id})
 })
 
+//delete budget
 app.delete(`${API_BASE}/:userID`, async (req: Request, res: Response) => {
     const userID = req.params.userID
     const newBudget = req.body
@@ -91,6 +86,7 @@ app.delete(`${API_BASE}/:userID`, async (req: Request, res: Response) => {
     res.json(error ? error.message : {incomes: data[0].incomes, expenses: data[0].expenses, user_id: data[0].user_id})
 })
 
+//add user
 app.post('/api/user/register', async (req: Request, res: Response) => {
     const newUser = req.body
 
@@ -112,12 +108,24 @@ app.post('/api/user/register', async (req: Request, res: Response) => {
     res.json(user?.id ? {id: user.id, email: user.email} : {error: error.message})
 })
 
+//login user
 app.post('/api/user/login', async (req: Request, res: Response) => {
     const userInfo = req.body
 
     const { user, session, error } = await supabase.auth.signIn(userInfo)
 
     res.json(user?.id ? {id: user.id, email: user.email} : {error: error.message})
+})
+
+//recover password (currently disabled in frontend)
+app.post('/api/user/recover', async (req: Request, res: Response) => {
+    const { email } = req.body
+
+    console.log('recovering', email)
+
+    const { data, error } = await supabase.auth.api.resetPasswordForEmail(email)
+
+    res.json(!error ? {error: 'Email sent. Check your inbox'} : {error: error.message})
 })
 
 //Unknown endpoints
