@@ -10,3 +10,9 @@
 	width: 100%;
 	min-height: 85vh;
 }
+
+.fullCentered {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
