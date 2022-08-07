@@ -8,7 +8,7 @@
     width: 100%;
     font-size: 18px;
     padding: 10px;
-    background-color:var(--sky-blue);
+    background-color:var(--dark-sky-blue);
     color: var(--white);
     border: 0;
     margin-top: 5px;
@@ -16,7 +16,7 @@
 }
 
 .submit:hover {
-    background-color: var(--crimson);
+    background-color: var(--sky-blue);
 }
 
 .submit:disabled {
