@@ -5,10 +5,11 @@ import { User, UserData } from '../common/types'
 
 interface Props {
     setUser: (value: User) => void
+    errorMessage: string
     setErrorMessage: (value: string) => void
 }
 
-const Login = ({setUser, setErrorMessage}: Props): JSX.Element => {
+const Login = ({setUser, errorMessage, setErrorMessage}: Props): JSX.Element => {
     const [selectedOption, setSelectedOption] = useState<'login' | 'register' | 'recover'>('login')
 
     const [userData, setUserData] = useState<UserData>({
@@ -81,6 +82,8 @@ const Login = ({setUser, setErrorMessage}: Props): JSX.Element => {
                     <input type='submit' value='Register' className={styles.submit} />
 
                     <p className={styles.extraOption} onClick={() => setSelectedOption('login')}>Already have an account? <span className={styles.bold}>Login</span></p>
+
+                    {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
                 </form>
             </>
         )
@@ -93,9 +96,11 @@ const Login = ({setUser, setErrorMessage}: Props): JSX.Element => {
                 <form onSubmit={handleRecover}>
                     <input required type='email' placeholder='email' value={userData.email} onChange={(e) => handleUserData('email', e.target.value)} disabled />
 
-                    <input type='submit' value='disabled' className={styles.submit} disabled />
+                    <input type='submit' value='currently disabled' className={styles.submit} disabled />
 
                     <p className={styles.extraOption} onClick={() => setSelectedOption('login')}>Go back to <span className={styles.bold}>Login</span></p>
+
+                    {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
                 </form>
             </>
         )
@@ -104,6 +109,7 @@ const Login = ({setUser, setErrorMessage}: Props): JSX.Element => {
     return (
         <>
             <h2>Login</h2>
+            {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
             <form onSubmit={handleLogIn}>
                 <input required type='email' placeholder='email' value={userData.email} onChange={(e) => handleUserData('email', e.target.value)} />
 

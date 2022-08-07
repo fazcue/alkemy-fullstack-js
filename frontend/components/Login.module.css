@@ -9,16 +9,22 @@
     cursor: pointer;
 }
 
-.submit:hover {
-    background-color: var(--crimson);
-}
-
 .extraOption {
     cursor: pointer;
 }
 
 .bold {
     font-weight: bold;
+}
+
+.errorMessage {
+    background-color: var(--crimson);
+    color: var(--white);
+    padding: 10px;
+}
+
+.submit:hover {
+    background-color: var(--crimson);
 }
 
 .extraOption:hover {
