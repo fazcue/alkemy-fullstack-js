@@ -24,9 +24,8 @@ const Menu = ({ budget, setBudget, balance = 0, userID = null, handleLogOut }: P
 		return (
 			<div className={styles.items}>
 				<div className={styles.balance} style={{width: !userID ? '100%' : null}}>
-					<span className={styles.balanceTitle}>balance: </span>
-
-					<span style={{color: balance === 0 ? 'var(--almost-dark)' : balance > 0 ? 'var(--dark-cyan)' : 'var(--crimson)', fontWeight: 'bold'}}>${balance}</span>
+					<span className={styles.balanceTitle}>$</span>
+					<span style={{color: balance === 0 ? 'var(--almost-dark)' : balance > 0 ? 'var(--dark-cyan)' : 'var(--crimson)', fontWeight: 'bold'}}>{balance}</span>
 				</div>
 
 				{userID &&
