@@ -1,0 +1,30 @@
+.submit {
+    width: 100%;
+    font-size: 18px;
+    padding: 10px;
+    background-color:var(--sky-blue);
+    color: var(--white);
+    border: 0;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.submit:hover {
+    background-color: var(--crimson);
+}
+
+.extraOption {
+    cursor: pointer;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.extraOption:hover {
+    color: var(--light-sea-green);
+}
+
+.submit:disabled {
+    background-color: var(--dark-gray);
+}
