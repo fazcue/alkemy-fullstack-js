@@ -15,6 +15,7 @@ interface Props {
 
 const NewEntry = ({budget, setBudget, userID, isModal = false, setModalStatus = () => {}}: Props): JSX.Element => {
     const [disabled, setDisabled] = useState(false)
+
     const [type, setType] = useState<'incomes' | 'expenses'>('incomes')
     const [newEntry, setNewEntry] = useState<Entry>({
         id: null,
@@ -28,7 +29,7 @@ const NewEntry = ({budget, setBudget, userID, isModal = false, setModalStatus = 
         setType(e.target.value)
     }
 
-    const handleOnChange = (prop, value) => {
+    const handleOnChange = (prop: 'category' | 'description' | 'amount' | 'date', value: string) => {
         //Dont allow line breaks
         const clearValue = value.split('').filter(c => c !== '\n').join('')
 
@@ -80,7 +81,6 @@ const NewEntry = ({budget, setBudget, userID, isModal = false, setModalStatus = 
     return (
         <>
             <h3 className={styles.title}>Add new Entry</h3>
-
             <form onSubmit={addNewEntry}>
 
                 <small>{60 - newEntry.description.length} characters remaining</small>
@@ -102,6 +102,7 @@ const NewEntry = ({budget, setBudget, userID, isModal = false, setModalStatus = 
                 <input required type='date' value={newEntry.date ? newEntry.date : ''} onChange={(e) => handleOnChange('date', e.target.value)} />
 
                 <input type='submit' value={disabled ? 'Adding... wait' : 'Add new'} className={styles.submit} disabled={disabled} />
+                
             </form>
         </>
     )
