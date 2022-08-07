@@ -1,18 +1,12 @@
 import styles from './UserMenu.module.css'
-import { User, Budget } from '../common/types'
+import { User } from '../common/types'
 
 interface Props {
     user: User
-    setUser: (value: User) => void
-    setBudget: (value: Budget) => void
+    handleLogOut: () => void
 }
 
-const UserMenu = ({ user, setUser, setBudget}: Props): JSX.Element => {
-    const handleLogOut = () => {
-        setUser(null)
-        setBudget(null)
-    }
-
+const UserMenu = ({ user, handleLogOut }: Props): JSX.Element => {
     const [nickname, rest] = user.email.split('@')
 
     return (
