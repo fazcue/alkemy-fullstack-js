@@ -38,9 +38,6 @@ interface Budget {
 //Supabase client for interacting with database
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY)
 
-//Frontend build
-app.use(express.static('build'))
-
 //ROUTES
 const API_BASE = '/api/budgets'
 
