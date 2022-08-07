@@ -9,6 +9,11 @@ const login = (userData) => {
     return axios.post(`${API_URL}/user/login`, userData)
 }
 
-const userService = { register, login }
+const recover = (email) => {
+    console.log('recovering', email);
+    return axios.post(`${API_URL}/user/recover`, {email: email})
+}
+
+const userService = { register, login, recover }
 
 export default userService
