@@ -1,18 +1,13 @@
 import styles from './Header.module.css'
-import { Budget } from '../common/types'
-import Menu from './Menu'
 
 interface Props {
-	budget: Budget
-	setBudget: (value: Budget) => void
-	balance: number
-	userID: string
+	children: JSX.Element
 }
 
-const Header = ({budget, setBudget, balance, userID}: Props): JSX.Element => {
+const Header = ({ children }: Props): JSX.Element => {
 	return (
 		<header className={styles.container}>
-			<Menu budget={budget} setBudget={setBudget} balance={balance} userID={userID} />
+			{children}
 		</header>
 	)
 }
