@@ -10,6 +10,7 @@ interface Props {
 }
 
 const Login = ({setUser, errorMessage, setErrorMessage}: Props): JSX.Element => {
+    const [disabled, setDisabled] = useState<boolean>(false)
     const [selectedOption, setSelectedOption] = useState<'login' | 'register' | 'recover'>('login')
 
     const [userData, setUserData] = useState<UserData>({
@@ -29,6 +30,8 @@ const Login = ({setUser, errorMessage, setErrorMessage}: Props): JSX.Element => 
     const handleLogIn = async (e) => {
         e.preventDefault()
 
+        setDisabled(true)
+
         if (userData.email && userData.password) {
             const res = await userService.login(userData)
 
@@ -37,10 +40,14 @@ const Login = ({setUser, errorMessage, setErrorMessage}: Props): JSX.Element => 
             }
             setUser(res.data)
         }
+
+        setDisabled(false)
     }
 
     const handleRegister = async (e) => {
         e.preventDefault()
+
+        setDisabled(true)
 
         if (userData.email && userData.password) {
             const res = await userService.register(userData)
@@ -50,6 +57,8 @@ const Login = ({setUser, errorMessage, setErrorMessage}: Props): JSX.Element => 
             }
             setUser(res.data)
         }
+
+        setDisabled(false)
     }
 
     const handleRecover = async (e) => {
@@ -75,11 +84,11 @@ const Login = ({setUser, errorMessage, setErrorMessage}: Props): JSX.Element => 
             <>
                 <h2>Register</h2>
                 <form onSubmit={handleRegister}>
-                    <input required type='email' placeholder='email' value={userData.email} onChange={(e) => handleUserData('email', e.target.value)} />
+                    <input required type='email' placeholder='email' value={userData.email} onChange={(e) => handleUserData('email', e.target.value)} disabled={disabled} />
 
-                    <input required placeholder='password' value={userData.password} type='password' onChange={(e) => handleUserData('password', e.target.value)} />
+                    <input required placeholder='password' value={userData.password} type='password' onChange={(e) => handleUserData('password', e.target.value)} disabled={disabled} />
 
-                    <input type='submit' value='Register' className={styles.submit} />
+                    <input type='submit' value={disabled ? 'Registering...' : 'Register'} className={styles.submit} disabled={disabled} />
 
                     <p className={styles.extraOption} onClick={() => setSelectedOption('login')}>Already have an account? <span className={styles.bold}>Login</span></p>
 
@@ -111,11 +120,11 @@ const Login = ({setUser, errorMessage, setErrorMessage}: Props): JSX.Element => 
             <h2>Login</h2>
             {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
             <form onSubmit={handleLogIn}>
-                <input required type='email' placeholder='email' value={userData.email} onChange={(e) => handleUserData('email', e.target.value)} />
+                <input required type='email' placeholder='email' value={userData.email} onChange={(e) => handleUserData('email', e.target.value)} disabled={disabled} />
 
-                <input required placeholder='password' value={userData.password} type='password' onChange={(e) => handleUserData('password', e.target.value)} />
+                <input required placeholder='password' value={userData.password} type='password' onChange={(e) => handleUserData('password', e.target.value)} disabled={disabled} />
 
-                <input type='submit' value='Log in' className={styles.submit} />
+                <input type='submit' value={disabled ? 'Loggin in...' : 'Log in'} className={styles.submit} disabled={disabled} />
 
                 <p className={styles.extraOption} onClick={() => setSelectedOption('register')}>Don`t have an account yet? <span className={styles.bold}>Register</span></p>
 
