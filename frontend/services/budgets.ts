@@ -1,5 +1,5 @@
 import axios from 'axios'
-const BUDGETS_API_URL = process.env.REACT_APP_BUDGETS_API_URL || 'http://localhost:3001/api'
+const BUDGETS_API_URL = process.env.NEXT_PUBLIC_BUDGETS_API_URL || 'http://localhost:3001/api'
 
 const get = (userID) => {
 	return axios.get(`${BUDGETS_API_URL}/budgets/${userID}`)
