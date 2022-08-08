@@ -1,10 +1,10 @@
-import express, { Express, Request, Response } from 'express'
-import cors from 'cors'
-import { createClient } from '@supabase/supabase-js'
 import dotenv from 'dotenv'
 dotenv.config()
+import express from 'express'
+import cors from 'cors'
+import { createClient } from '@supabase/supabase-js'
 
-const app: Express = express()
+const app = express()
 
 app.use(express.json())
 app.use(cors())
@@ -18,35 +18,18 @@ const requestLogger = (request, response, next) => {
 
 app.use(requestLogger)
 
-//interfaces
-interface Entry {
-    id: string
-    category: string
-    description: string
-    amount: number
-    date: string
-}
-
-interface Budget {
-    created_at: string
-    id: number
-    incomes: Entry[]
-    expenses: Entry[]
-    user_id: string
-}
-
 //Supabase client for interacting with database
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY)
 
 //ROUTES
 const API_BASE = '/api/budgets'
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (req, res) => {
     res.send('<h1>Express installed</h1>')
 })
 
 //get budget
-app.get(`${API_BASE}/:userID`, async (req: Request, res: Response) => {
+app.get(`${API_BASE}/:userID`, async (req, res) => {
     const userID = req.params.userID
 
     const { data, error } = await supabase
@@ -58,12 +41,12 @@ app.get(`${API_BASE}/:userID`, async (req: Request, res: Response) => {
 })
 
 //update budget
-app.put(`${API_BASE}/:userID`, async (req: Request, res: Response) => {
+app.put(`${API_BASE}/:userID`, async (req, res) => {
     const userID = req.params.userID
     const newBudget = req.body
 
     const { data, error } = await supabase
-        .from<Budget>('budgets')
+        .from('budgets')
         .update(newBudget)
         .match({ user_id: userID })
 
@@ -71,12 +54,12 @@ app.put(`${API_BASE}/:userID`, async (req: Request, res: Response) => {
 })
 
 //delete budget
-app.delete(`${API_BASE}/:userID`, async (req: Request, res: Response) => {
+app.delete(`${API_BASE}/:userID`, async (req, res) => {
     const userID = req.params.userID
     const newBudget = req.body
 
     const { data, error } = await supabase
-        .from<Budget>('budgets')
+        .from('budgets')
         .update(newBudget)
         .match({ user_id: userID })
 
@@ -84,7 +67,7 @@ app.delete(`${API_BASE}/:userID`, async (req: Request, res: Response) => {
 })
 
 //add user
-app.post('/api/user/register', async (req: Request, res: Response) => {
+app.post('/api/user/register', async (req, res) => {
     const newUser = req.body
 
     const { user, session, error } = await supabase.auth.signUp(newUser)
@@ -106,7 +89,7 @@ app.post('/api/user/register', async (req: Request, res: Response) => {
 })
 
 //login user
-app.post('/api/user/login', async (req: Request, res: Response) => {
+app.post('/api/user/login', async (req, res) => {
     const userInfo = req.body
 
     const { user, session, error } = await supabase.auth.signIn(userInfo)
@@ -115,7 +98,7 @@ app.post('/api/user/login', async (req: Request, res: Response) => {
 })
 
 //recover password (currently disabled in frontend)
-app.post('/api/user/recover', async (req: Request, res: Response) => {
+app.post('/api/user/recover', async (req, res) => {
     const { email } = req.body
 
     console.log('recovering', email)
@@ -126,14 +109,14 @@ app.post('/api/user/recover', async (req: Request, res: Response) => {
 })
 
 //Unknown endpoints
-const unknownEndpoint = (req: Request, res: Response) => {
+const unknownEndpoint = (req, res) => {
     res.status(404).send({ error: 'unknown endpoint'})
 }
 
 app.use(unknownEndpoint)
 
 //Listen
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
