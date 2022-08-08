@@ -1,5 +1,5 @@
 import axios from 'axios'
-const API_URL = 'http://localhost:3001/api'
+const API_URL = process.env.NEXT_PUBLIC_BUDGETS_API_URL || 'http://localhost:3001/api'
 
 const register = (userData) => {
 	return axios.post(`${API_URL}/user/register`, userData)
