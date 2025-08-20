@@ -1,16 +1,55 @@
-# Alkemy challenge: FullStack JS
+# Alkemy Challenge: FullStack JS
+Personal budget management app: create and edit incomes and expenses, and view the resulting balance.
 
-live test: https://alkemy-fullstack-js-frontend.herokuapp.com/
+## Table of Contents
+- [Technologies](#technologies)
+- [Live Demo](#live-demo)
+- [Installation](#installation)
+- [Repository Structure](#repository-structure)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Objetivo
+## Technologies
+- **Backend**: Node.js + Express  
+- **Frontend**: Next.js (React)  
+- **Database**: Supabase (PostgreSQL)  
+- **Languages**: TypeScript, CSS, JavaScript  
 
-Desarrollar una aplicación para administración de presupuesto personal. La misma debe permitir crear y editar ingresos y egresos de dinero, y mostrar un balance resultante de las operaciones registradas.
+## Live Demo
+Check out the deployed version here:  
+👉 [https://alkemychallenge.azcue.dev](https://alkemychallenge.azcue.dev)
 
-## Estructura
+## Installation & Local Setup
 
-Backend: nodejs express
-Frontend: Nextjs
+1 - Clone the repository:
+  ```bash
+  git clone https://github.com/fazcue/alkemy-fullstack-js.git
+  cd alkemy-fullstack-js
+  ```
 
-## Base de datos utilizada
+2 - Set up environment variables (.env) for both backend and frontend (Supabase URL, keys, etc.).
 
-Supabase
+3 - Run the backend:
+  ```bash
+  cd backend
+  npm install
+  npm run dev
+  ```
+
+4 - Run the frontend:
+  ```bash
+  cd frontend
+  npm install
+  npm run dev
+  ```
+
+5 - Open http://localhost:3000 & http://localhost:3001 to use the app locally.
+
+## Repository Structure
+  ```
+  alkemy-fullstack-js/
+  ├── backend/        Backend with Node.js and Express
+  ├── frontend/       Frontend with Next.js and React
+  └── README.md       Main documentation
+  ```
